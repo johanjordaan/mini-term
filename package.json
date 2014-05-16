@@ -1,6 +1,6 @@
 {
-  "name": "js-terminal",
-  "description": "A well crafted javascrip terminal",
+  "name": "mini-term",
+  "description": "A well crafted minimal javascript terminal",
   "author": "Johan Jordaan <me@here.com>",
   "version": "0.0.0",
   "dependencies": {},
