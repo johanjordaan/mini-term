@@ -1,6 +1,6 @@
-bower_components
-node_modules
-main
-public
-server
-test
+/bower_components
+/node_modules/
+/main
+/public
+/server
+/test
