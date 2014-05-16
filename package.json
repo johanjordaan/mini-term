@@ -1,0 +1,19 @@
+{
+  "name": "js-terminal",
+  "description": "A well crafted javascrip terminal",
+  "author": "Johan Jordaan <me@here.com>",
+  "version": "0.0.0",
+  "dependencies": {},
+  "devDependencies": {
+    "chai": "*",
+    "grunt-nodemon": "~0.2.1",
+    "grunt-contrib-coffee": "~0.10.1",
+    "grunt-contrib-less": "*",
+    "grunt-mocha-test": "~0.10.2",
+    "grunt-shell": "~0.6.4",
+    "express": "~4.0.0",
+    "body-parser": "~1.0.1",
+    "underscore": "~1.6.0"
+  },
+  "engine": "node >= 0.4.1"
+}
