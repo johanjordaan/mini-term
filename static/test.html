@@ -23,14 +23,16 @@
       }
 
       $(function(){
-        $('#terminal').terminal(parser);
+        $('#terminal1').terminal(parser);
+        $('#terminal2').terminal(parser,{greeting:'Second terminal'});
         $('#txt').text('Hallo world');
       });
     </script>
 
   </head>
   <body>
-    <div id="terminal" style="height:200px;"></div>
+    <div id="terminal1" style="height:150px;"></div>
+    <div id="terminal2" style="height:150px;"></div>
     <h1 id='txt'></h1>
   </body>
 </html>
