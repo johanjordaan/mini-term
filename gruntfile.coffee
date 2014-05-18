@@ -47,7 +47,7 @@ module.exports = (grunt) ->
           "public/css/mini-term.css": "src/public/less/mini-term.less"
   
 
-  #grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-coffee')
   grunt.loadNpmTasks('grunt-mocha-test')
   grunt.loadNpmTasks('grunt-shell')

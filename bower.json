@@ -1,0 +1,24 @@
+{
+  "name": "mini-term",
+  "version": "0.0.1",
+  "main": "dist/mini-term.js",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "build",
+    "speed",
+    "test",
+    "*.md",
+    "AUTHORS.txt",
+    "Gruntfile.coffee",
+    "package.json"
+  ],
+  "dependencies": {
+    "jquery": "*"
+  },
+  "keywords": [
+    "jquery",
+    "javascript",
+    "library"
+  ]
+}
