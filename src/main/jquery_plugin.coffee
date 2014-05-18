@@ -1,4 +1,7 @@
 (
+  terminals = {}
+
+
   ($) ->
     $.fn.terminal = (interpreter) ->
       # Crummy code to force div to acept key events
@@ -10,6 +13,8 @@
       t = new Terminal(interpreter)
       tvm = new TerminalVM(@,t)   
 
+      terminals[@] = tvm
+
       handle_special_keys = (e) ->
         
 
@@ -19,10 +24,10 @@
         if(target.className == 'terminal_base')
           if e.keyCode == 8
             e.preventDefault()
-            tvm.handle_key 'BACKSPACE'
+            terminals[$(target)].handle_key 'BACKSPACE'
           else if e.keyCode == 13
             e.preventDefault()
-            tvm.handle_key 'ENTER'
+            terminals[$(target)].handle_key 'ENTER'
         else      
           if (e.keyCode == 8 && !/input|textarea/i.test(target.nodeName))
             return false
@@ -37,7 +42,7 @@
 
         if(target.className == 'terminal_base')
           key_name = String.fromCharCode(e.which||e.charCode||e.keyCode)
-          tvm.handle_key key_name
+          terminals[$(target)].handle_key key_name
             
 
       document.onkeydown = handle_special_keys
