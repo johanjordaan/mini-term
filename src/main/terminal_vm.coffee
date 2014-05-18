@@ -4,20 +4,17 @@ if require?
 class TerminalVM
   constructor : (@element,@terminal) ->
     me = @
-    @element.bind 'keypress', (event) ->
-      me.key_down(event)
 
     @terminal.echo 'welcome ...'
     @redraw()
 
-  key_down : (event) ->
-    event.preventDefault()
-    switch event.keyCode
-      when 13 then @terminal.accept()
-      else @terminal.set_buffer(@terminal.get_buffer()+String.fromCharCode(event.which||event.charCode||event.keyCode))
+  handle_key : (key_name) ->
+    switch key_name
+      when 'ENTER' then @terminal.accept()
+      when 'BACKSPACE' then @terminal.set_buffer(@terminal.get_buffer().substring(0,@terminal.get_buffer().length-1))
+      else @terminal.set_buffer(@terminal.get_buffer()+key_name)
 
     @redraw()
-
 
   redraw : () ->
     @element.empty()
@@ -27,7 +24,7 @@ class TerminalVM
       else  
         @element.append "<div>#{line.line}</div>"
 
-    @element.append "<div><span>term> </span><span id='buffer'>#{@terminal.get_buffer()}</span></div>"
+    @element.append "<div><span>term> </span><span id='buffer'>#{@terminal.get_buffer()}</span><span id='cursor'>_</span></div>"
     
     @element.scrollTop(@element.prop('scrollHeight'))
 
