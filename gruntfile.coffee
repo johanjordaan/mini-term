@@ -38,6 +38,8 @@ module.exports = (grunt) ->
     nodemon:
       dev:
         script: 'server/server.js'
+        options:
+          watch : ['server']
 
     less:
       dev:
@@ -53,7 +55,7 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks('grunt-contrib-less')
   
   grunt.registerTask('default', ['coffee:singles','less','coffee:concat','mochaTest'])
-  grunt.registerTask('run', ['coffee','mochaTest','nodemon'])
+  grunt.registerTask('run', ['default','nodemon:dev'])
 
 
 

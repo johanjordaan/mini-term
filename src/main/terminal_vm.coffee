@@ -2,7 +2,7 @@ if require?
   _ = require('underscore')
 
 class TerminalVM
-  constructor : (@element,@terminal) ->
+  constructor : (@element,@terminal,@options) ->
     me = @
 
     @terminal.echo 'welcome ...'

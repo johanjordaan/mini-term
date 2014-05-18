@@ -21,4 +21,7 @@ app.get '/', (req, res) ->
       res.set {'Content-Type': 'text/html'}
       res.send data
 
-app.listen(3000)
+server = app.listen(3000)
+
+if module?
+  module.exports.server = server
