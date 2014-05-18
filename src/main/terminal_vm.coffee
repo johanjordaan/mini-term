@@ -7,6 +7,27 @@ class TerminalVM
     @terminal.echo @_get_option(options,'greeting','welcome to mini-term...')
     @_redraw()
 
+    me = @
+    setInterval () ->
+      if !me.element.is(':focus') then return
+      c = me.element.find('#cursor')
+      if c.text() == '_' 
+        c.text('')
+      else
+        c.text('_')
+    , 500
+    
+    @element.focusin () ->
+      c = me.element.find('#cursor')
+      c.text('_')
+
+    @element.focusout () ->
+      c = me.element.find('#cursor')
+      c.text('')
+
+
+
+
   _handle_key : (key_name) ->
     switch key_name
       when 'ENTER' then @terminal.accept()
@@ -36,7 +57,9 @@ class TerminalVM
   set_greeting : (@greeting) ->
 
   set_prompt : (@prompt) ->  
-  
+
+
+
 
 
 if module?

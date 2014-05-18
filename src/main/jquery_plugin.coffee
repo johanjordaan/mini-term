@@ -1,7 +1,6 @@
 (
   terminals = {}
 
-
   ($) ->
     $.fn.terminal = (interpreter,options) ->
       # Crummy code to force div to acept key events
@@ -17,7 +16,6 @@
 
       handle_special_keys = (e) ->
         
-
         e = e || window.event
         target = e.target || e.srcElement
 
@@ -44,7 +42,7 @@
           key_name = String.fromCharCode(e.which||e.charCode||e.keyCode)
           terminals[target.id]._handle_key key_name
             
-
+          
       document.onkeydown = handle_special_keys
       document.onkeypress = handle_keys
 
