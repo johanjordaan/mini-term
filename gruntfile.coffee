@@ -7,15 +7,16 @@ module.exports = (grunt) ->
         banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n'
     
       build : 
-        src : 'src/<%= pkg.name %>.js',
-        dest: 'build/<%= pkg.name %>.min.js'
+        src : 'dist/<%= pkg.name %>.js',
+        dest: 'dist/<%= pkg.name %>.min.js'
 
     coffee: 
       concat:
         options: 
           bare: true
         files:
-          'public/js/mini-term.js' : 'src/main/**/*.coffee'
+          'public/js/<%= pkg.name %>.js' : 'src/main/**/*.coffee'
+          'dist/<%= pkg.name %>.js' : 'src/main/**/*.coffee'
 
 
       singles:
@@ -54,7 +55,7 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks('grunt-nodemon')
   grunt.loadNpmTasks('grunt-contrib-less')
   
-  grunt.registerTask('default', ['coffee:singles','less','coffee:concat','mochaTest'])
+  grunt.registerTask('default', ['coffee:singles','less','coffee:concat','uglify','mochaTest'])
   grunt.registerTask('run', ['default','nodemon:dev'])
 
 
