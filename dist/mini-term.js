@@ -92,7 +92,7 @@ var terminals;
 (terminals = {}, function($) {
   return $.fn.terminal = function(interpreter, options) {
     var handle_keys, handle_special_keys, t, tvm;
-    this.addClass('terminal_base');
+    this.addClass('mini-term');
     this.attr('tabindex', '1');
     this.focus();
     t = new Terminal(interpreter);
@@ -102,7 +102,7 @@ var terminals;
       var target;
       e = e || window.event;
       target = e.target || e.srcElement;
-      if (target.className === 'terminal_base') {
+      if (target.className === 'mini-term') {
         if (e.keyCode === 8) {
           e.preventDefault();
           terminals[target.id]._handle_key('BACKSPACE');
@@ -122,7 +122,7 @@ var terminals;
       e.preventDefault();
       e = e || window.event;
       target = e.target || e.srcElement;
-      if (target.className === 'terminal_base') {
+      if (target.className === 'mini-term') {
         key_name = String.fromCharCode(e.which || e.charCode || e.keyCode);
         return terminals[target.id]._handle_key(key_name);
       }

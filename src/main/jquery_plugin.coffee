@@ -5,7 +5,7 @@
     $.fn.terminal = (interpreter,options) ->
       # Crummy code to force div to acept key events
       #
-      @.addClass 'terminal_base'
+      @.addClass 'mini-term'
       @.attr 'tabindex','1'
       @.focus()
 
@@ -19,7 +19,7 @@
         e = e || window.event
         target = e.target || e.srcElement
 
-        if(target.className == 'terminal_base')
+        if(target.className == 'mini-term')
           if e.keyCode == 8
             e.preventDefault()
             terminals[target.id]._handle_key 'BACKSPACE'
@@ -38,7 +38,7 @@
         e = e || window.event
         target = e.target || e.srcElement
 
-        if(target.className == 'terminal_base')
+        if(target.className == 'mini-term')
           key_name = String.fromCharCode(e.which||e.charCode||e.keyCode)
           terminals[target.id]._handle_key key_name
             
