@@ -1,10 +1,16 @@
 .terminal_base {
   outline: none;        // Hide focus outline
-  overflow: hidden;     // Hide scrollbars
+  
+  overflow: auto;       // Hide scrollbars
+  right : -20px;        // Should move the scrollbar  outside the visual area
 
   font-family: FreeMono, monospace;
   color: #aaa;
   background-color: #000;
   font-size: 12px;
   line-height: 14px;
+}
+
+.terminal_base::-webkit-scrollbar {
+  display: none;
 }
