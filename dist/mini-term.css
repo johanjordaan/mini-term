@@ -1,0 +1,13 @@
+.mini-term {
+  outline: none;
+  overflow: auto;
+  right: -20px;
+  font-family: FreeMono, monospace;
+  color: #aaa;
+  background-color: #000;
+  font-size: 12px;
+  line-height: 14px;
+}
+.mini-term::-webkit-scrollbar {
+  display: none;
+}

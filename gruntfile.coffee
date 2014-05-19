@@ -46,6 +46,8 @@ module.exports = (grunt) ->
       dev:
         files:
           "public/css/mini-term.css": "src/public/less/mini-term.less"
+          "dist/mini-term.css": "src/public/less/mini-term.less"
+                  
   
 
   grunt.loadNpmTasks('grunt-contrib-uglify');
