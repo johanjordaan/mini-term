@@ -1,6 +1,8 @@
 mini-term
 =========
 
+The aim of the project is to make a very simple terminal available for use in web pages. It will not try to be a fully fledged terminal. It will not try to do cute command parsing for you. It will be minimal and allow you the maiximum amount of flexability.
+
 ## Install
 
 ``` 
@@ -8,6 +10,7 @@ npm install mini-term
 ``` 
 
 ## Usage
+The following minimal html illustrates the most basic usage of mini-term.
 
 ```html
 <html>
@@ -42,7 +45,68 @@ npm install mini-term
 </html>
 ```
 
+## Options
+
+Options are passed to the terminal via the binding method : $(function() { $('#terminal').terminal(parser); options });`
+
+The options paramter is an object which has the following properties:
+
+### greeting
+This is the greeting which is displayed when the terminal is started initially and when the terminal is via the reset api command.
+
+### prompt
+This is the prompt for the terminal.
+
+
+## API
+
+### echo(string)
+This command will print the string to the terminal. If the string contains new lines then each line will be printed on a seperate line in the terminal.
+
+### clear
+This command will clear the terminal.
+
+
+
 ## Contributing
+
+Fork the development branch on git hub.
+
+Insalll grunt globally
+
+```
+npm install -g grunt
+```
+
+Install the dependencies
+
+``` 
+npm install 
+```
+
+Then run the default grunt build task
+
+```
+grunt
+```
+
+or 
+```
+grunt run
+```
+to start the example server. (The server runs on port 3000)
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ## Copyright and license
