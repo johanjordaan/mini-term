@@ -7,7 +7,7 @@
   "ignore": [
     "**/.*",
     "src",
-    "static",
+    "examples",
     "*.md",
     "Gruntfile.coffee",
     "package.json"

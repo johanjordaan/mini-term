@@ -2,7 +2,7 @@
   "name": "mini-term",
   "description": "A well crafted minimal javascript terminal",
   "author": "Johan Jordaan <me@here.com>",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "dependencies": {},
   "devDependencies": {
     "chai": "*",
