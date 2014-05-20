@@ -95,9 +95,9 @@ var terminals;
     this.addClass('mini-term');
     this.attr('tabindex', '1');
     this.focus();
-    t = new Terminal(interpreter);
+    t = new Terminal(interpreter, options);
     h = new History();
-    tvm = new TerminalVM(this, t, h, options);
+    tvm = new TerminalVM(this, t, h);
     terminals[this[0].id] = tvm;
     handle_special_keys = function(e) {
       var target;
@@ -151,6 +151,7 @@ Terminal = (function() {
     this.interpreter = interpreter;
     this.set_options(options);
     this.clear();
+    this.echo(this._get_option(options, 'greeting', 'welcome to mini-term...'));
   }
 
   Terminal.prototype.set_lines = function(lines) {
@@ -200,10 +201,10 @@ Terminal = (function() {
   };
 
   Terminal.prototype.echo = function(string) {
-    return this._echo(string, false, '');
+    return this._echo(string, false, '', false);
   };
 
-  Terminal.prototype._echo = function(string, cmd_ind, prompt) {
+  Terminal.prototype._echo = function(string, cmd_ind, prompt, masked) {
     var line, lines, _i, _len, _results;
     lines = string.replace('\r', '').split('\n');
     _results = [];
@@ -212,7 +213,8 @@ Terminal = (function() {
       _results.push(this.lines.push({
         cmd_ind: cmd_ind,
         line: line,
-        prompt: prompt
+        prompt: prompt,
+        masked: masked
       }));
     }
     return _results;
@@ -223,11 +225,11 @@ Terminal = (function() {
     buffer = this.get_buffer();
     this.set_buffer('');
     if (this.mode === 'input') {
-      this._echo(buffer, true, this.input_prompt);
+      this._echo(buffer, true, this.input_prompt, this.mask_input);
       this.mode = 'buffer';
       return this.input_cb(buffer);
     } else {
-      this._echo(buffer, true, this.prompt);
+      this._echo(buffer, true, this.prompt, false);
       return this.interpreter(this, buffer);
     }
   };
@@ -235,7 +237,15 @@ Terminal = (function() {
   Terminal.prototype.get_input = function(prompt, cb) {
     this.mode = 'input';
     this.input_cb = cb;
-    return this.input_prompt = prompt;
+    this.input_prompt = prompt;
+    return this.mask_input = false;
+  };
+
+  Terminal.prototype.get_masked_input = function(prompt, cb) {
+    this.mode = 'input';
+    this.input_cb = cb;
+    this.input_prompt = prompt;
+    return this.mask_input = true;
   };
 
   return Terminal;
@@ -258,8 +268,6 @@ TerminalVM = (function() {
     this.element = element;
     this.terminal = terminal;
     this.history = history;
-    this.set_options(options);
-    this.terminal.echo(this._get_option(options, 'greeting', 'welcome to mini-term...'));
     this._redraw();
     me = this;
     setInterval(function() {
@@ -307,16 +315,12 @@ TerminalVM = (function() {
   };
 
   TerminalVM.prototype._enter = function() {
-    this.history.push(this.terminal.get_buffer());
-    return this.terminal.accept();
-  };
+    if (this.terminal.mode === 'input' && this.terminal.mask_input) {
 
-  TerminalVM.prototype._get_option = function(options, key, default_value) {
-    if ((options != null) && (options[key] != null)) {
-      return options[key];
     } else {
-      return default_value;
+      this.history.push(this.terminal.get_buffer());
     }
+    return this.terminal.accept();
   };
 
   TerminalVM.prototype._redraw = function() {
@@ -326,25 +330,21 @@ TerminalVM = (function() {
     for (_i = 0, _len = _ref.length; _i < _len; _i++) {
       line = _ref[_i];
       if (line.cmd_ind) {
-        this.element.append("<div><span id='prompt'>" + line.prompt + "</span>" + line.line + "</div>");
+        if (line.masked) {
+          this.element.append("<div><span id='prompt'>" + line.prompt + "</span></div>");
+        } else {
+          this.element.append("<div><span id='prompt'>" + line.prompt + "</span>" + line.line + "</div>");
+        }
       } else {
         this.element.append("<div>" + line.line + "</div>");
       }
     }
-    this.element.append("<div><span id='prompt'>" + (this.terminal.get_prompt()) + "</span><span id='buffer'>" + (this.terminal.get_buffer()) + "</span><span id='cursor'>_</span></div>");
+    if (this.terminal.mode === 'input' && this.terminal.mask_input) {
+      this.element.append("<div><span id='prompt'>" + (this.terminal.get_prompt()) + "</span></div>");
+    } else {
+      this.element.append("<div><span id='prompt'>" + (this.terminal.get_prompt()) + "</span><span id='buffer'>" + (this.terminal.get_buffer()) + "</span><span id='cursor'>_</span></div>");
+    }
     return this.element.scrollTop(this.element.prop('scrollHeight'));
-  };
-
-  TerminalVM.prototype.set_options = function(options) {
-    return this.terminal.set_prompt(this._get_option(options, 'prompt', 'mini-term>'));
-  };
-
-  TerminalVM.prototype.set_greeting = function(greeting) {
-    this.greeting = greeting;
-  };
-
-  TerminalVM.prototype.set_prompt = function(prompt) {
-    this.prompt = prompt;
   };
 
   return TerminalVM;

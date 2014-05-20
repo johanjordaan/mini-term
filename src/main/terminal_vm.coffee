@@ -3,8 +3,6 @@ if require?
 
 class TerminalVM
   constructor : (@element,@terminal,@history,options) ->
-    @set_options(options)
-    @terminal.echo @_get_option(options,'greeting','welcome to mini-term...')
     @_redraw()
 
     me = @
@@ -37,34 +35,29 @@ class TerminalVM
     @_redraw()
 
   _enter : () ->
-     @history.push(@terminal.get_buffer())
-     @terminal.accept()  
-
-
-  _get_option : (options,key,default_value) ->
-    if (options? and options[key]?) then options[key] else default_value
+    if @terminal.mode == 'input' and @terminal.mask_input     
+    else  
+      @history.push(@terminal.get_buffer())
+    
+    @terminal.accept()  
 
   _redraw : () ->
     @element.empty()
     for line in @terminal.get_lines()
       if line.cmd_ind
-        @element.append "<div><span id='prompt'>#{line.prompt}</span>#{line.line}</div>"
+        if line.masked
+          @element.append "<div><span id='prompt'>#{line.prompt}</span></div>"
+        else
+          @element.append "<div><span id='prompt'>#{line.prompt}</span>#{line.line}</div>"
       else  
         @element.append "<div>#{line.line}</div>"
-
-    @element.append "<div><span id='prompt'>#{@terminal.get_prompt()}</span><span id='buffer'>#{@terminal.get_buffer()}</span><span id='cursor'>_</span></div>"
+  
+    if @terminal.mode == 'input' and @terminal.mask_input     
+      @element.append "<div><span id='prompt'>#{@terminal.get_prompt()}</span></div>"
+    else
+      @element.append "<div><span id='prompt'>#{@terminal.get_prompt()}</span><span id='buffer'>#{@terminal.get_buffer()}</span><span id='cursor'>_</span></div>"
     
     @element.scrollTop(@element.prop('scrollHeight'))
-
-  set_options : (options) ->
-    @terminal.set_prompt(@_get_option(options,'prompt','mini-term>'))
-
-  set_greeting : (@greeting) ->
-
-  set_prompt : (@prompt) ->  
-
-
-
 
 
 if module?

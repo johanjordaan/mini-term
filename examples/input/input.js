@@ -5,7 +5,7 @@ parser = function(term, cmd) {
     return term.clear();
   } else if (cmd === 'login') {
     return term.get_input('user name:', function(username) {
-      return term.get_input('password:', function(password) {
+      return term.get_masked_input('password:', function(password) {
         return term.echo("" + username + "-" + password);
       });
     });

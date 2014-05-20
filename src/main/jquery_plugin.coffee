@@ -9,9 +9,9 @@
       @.attr 'tabindex','1'
       @.focus()
 
-      t = new Terminal(interpreter)
+      t = new Terminal(interpreter,options)
       h = new History()
-      tvm = new TerminalVM(@,t,h,options)   
+      tvm = new TerminalVM(@,t,h)   
 
       terminals[@[0].id] = tvm
 
