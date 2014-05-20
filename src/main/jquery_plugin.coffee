@@ -10,7 +10,8 @@
       @.focus()
 
       t = new Terminal(interpreter)
-      tvm = new TerminalVM(@,t,options)   
+      h = new History()
+      tvm = new TerminalVM(@,t,h,options)   
 
       terminals[@[0].id] = tvm
 
@@ -26,6 +27,12 @@
           else if e.keyCode == 13
             e.preventDefault()
             terminals[target.id]._handle_key 'ENTER'
+          else if e.keyCode == 38
+            e.preventDefault()
+            terminals[target.id]._handle_key 'UP'
+          else if e.keyCode == 40
+            e.preventDefault()
+            terminals[target.id]._handle_key 'DOWN'    
         else      
           if (e.keyCode == 8 && !/input|textarea/i.test(target.nodeName))
             return false
@@ -45,8 +52,6 @@
           
       document.onkeydown = handle_special_keys
       document.onkeypress = handle_keys
-
-      
      
       return @
 )(jQuery)

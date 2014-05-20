@@ -9,6 +9,11 @@ The aim of the project is to make a very simple terminal available for use in we
 bower install mini-term
 ``` 
 
+## Features
+* Simple api
+* History
+
+
 ## Usage
 The following minimal html illustrates the most basic usage of mini-term.
 
@@ -72,7 +77,7 @@ This command resets the terminal to its initial state. This includes clearing th
 
 ## Contributing
 
-1. Insalll grunt globally
+1. Insall grunt globally
 ```
 npm install -g grunt
 ```

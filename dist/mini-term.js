@@ -91,12 +91,13 @@ var terminals;
 
 (terminals = {}, function($) {
   return $.fn.terminal = function(interpreter, options) {
-    var handle_keys, handle_special_keys, t, tvm;
+    var h, handle_keys, handle_special_keys, t, tvm;
     this.addClass('mini-term');
     this.attr('tabindex', '1');
     this.focus();
     t = new Terminal(interpreter);
-    tvm = new TerminalVM(this, t, options);
+    h = new History();
+    tvm = new TerminalVM(this, t, h, options);
     terminals[this[0].id] = tvm;
     handle_special_keys = function(e) {
       var target;
@@ -109,6 +110,12 @@ var terminals;
         } else if (e.keyCode === 13) {
           e.preventDefault();
           terminals[target.id]._handle_key('ENTER');
+        } else if (e.keyCode === 38) {
+          e.preventDefault();
+          terminals[target.id]._handle_key('UP');
+        } else if (e.keyCode === 40) {
+          e.preventDefault();
+          terminals[target.id]._handle_key('DOWN');
         }
       } else {
         if (e.keyCode === 8 && !/input|textarea/i.test(target.nodeName)) {
@@ -140,10 +147,10 @@ if (typeof require !== "undefined" && require !== null) {
 }
 
 Terminal = (function() {
-  function Terminal(interpreter) {
+  function Terminal(interpreter, options) {
     this.interpreter = interpreter;
+    this.set_options(options);
     this.clear();
-    this.history = [];
   }
 
   Terminal.prototype.set_lines = function(lines) {
@@ -162,24 +169,41 @@ Terminal = (function() {
     return this.buffer;
   };
 
-  Terminal.prototype.set_history = function(history) {
-    this.history = history;
+  Terminal.prototype.set_prompt = function(prompt) {
+    this.prompt = prompt;
   };
 
-  Terminal.prototype.get_history = function() {
-    return this.history;
+  Terminal.prototype.get_prompt = function() {
+    if (this.mode === 'input') {
+      return this.input_prompt;
+    } else {
+      return this.prompt;
+    }
+  };
+
+  Terminal.prototype._get_option = function(options, key, default_value) {
+    if ((options != null) && (options[key] != null)) {
+      return options[key];
+    } else {
+      return default_value;
+    }
+  };
+
+  Terminal.prototype.set_options = function(options) {
+    return this.set_prompt(this._get_option(options, 'prompt', 'mini-term>'));
   };
 
   Terminal.prototype.clear = function() {
     this.set_buffer('');
-    return this.set_lines([]);
+    this.set_lines([]);
+    return this.mode = 'buffer';
   };
 
   Terminal.prototype.echo = function(string) {
-    return this._echo(string, false);
+    return this._echo(string, false, '');
   };
 
-  Terminal.prototype._echo = function(string, cmd_ind) {
+  Terminal.prototype._echo = function(string, cmd_ind, prompt) {
     var line, lines, _i, _len, _results;
     lines = string.replace('\r', '').split('\n');
     _results = [];
@@ -187,7 +211,8 @@ Terminal = (function() {
       line = lines[_i];
       _results.push(this.lines.push({
         cmd_ind: cmd_ind,
-        line: line
+        line: line,
+        prompt: prompt
       }));
     }
     return _results;
@@ -196,9 +221,21 @@ Terminal = (function() {
   Terminal.prototype.accept = function() {
     var buffer;
     buffer = this.get_buffer();
-    this._echo(buffer, true);
     this.set_buffer('');
-    return this.interpreter(this, buffer);
+    if (this.mode === 'input') {
+      this._echo(buffer, true, this.input_prompt);
+      this.mode = 'buffer';
+      return this.input_cb(buffer);
+    } else {
+      this._echo(buffer, true, this.prompt);
+      return this.interpreter(this, buffer);
+    }
+  };
+
+  Terminal.prototype.get_input = function(prompt, cb) {
+    this.mode = 'input';
+    this.input_cb = cb;
+    return this.input_prompt = prompt;
   };
 
   return Terminal;
@@ -216,10 +253,11 @@ if (typeof require !== "undefined" && require !== null) {
 }
 
 TerminalVM = (function() {
-  function TerminalVM(element, terminal, options) {
+  function TerminalVM(element, terminal, history, options) {
     var me;
     this.element = element;
     this.terminal = terminal;
+    this.history = history;
     this.set_options(options);
     this.terminal.echo(this._get_option(options, 'greeting', 'welcome to mini-term...'));
     this._redraw();
@@ -251,15 +289,26 @@ TerminalVM = (function() {
   TerminalVM.prototype._handle_key = function(key_name) {
     switch (key_name) {
       case 'ENTER':
-        this.terminal.accept();
+        this._enter();
         break;
       case 'BACKSPACE':
         this.terminal.set_buffer(this.terminal.get_buffer().substring(0, this.terminal.get_buffer().length - 1));
+        break;
+      case 'UP':
+        this.terminal.set_buffer(this.history.up());
+        break;
+      case 'DOWN':
+        this.terminal.set_buffer(this.history.down());
         break;
       default:
         this.terminal.set_buffer(this.terminal.get_buffer() + key_name);
     }
     return this._redraw();
+  };
+
+  TerminalVM.prototype._enter = function() {
+    this.history.push(this.terminal.get_buffer());
+    return this.terminal.accept();
   };
 
   TerminalVM.prototype._get_option = function(options, key, default_value) {
@@ -277,17 +326,17 @@ TerminalVM = (function() {
     for (_i = 0, _len = _ref.length; _i < _len; _i++) {
       line = _ref[_i];
       if (line.cmd_ind) {
-        this.element.append("<div><span id='prompt'>" + this.prompt + "</span>" + line.line + "</div>");
+        this.element.append("<div><span id='prompt'>" + line.prompt + "</span>" + line.line + "</div>");
       } else {
         this.element.append("<div>" + line.line + "</div>");
       }
     }
-    this.element.append("<div><span id='prompt'>" + this.prompt + "</span><span id='buffer'>" + (this.terminal.get_buffer()) + "</span><span id='cursor'>_</span></div>");
+    this.element.append("<div><span id='prompt'>" + (this.terminal.get_prompt()) + "</span><span id='buffer'>" + (this.terminal.get_buffer()) + "</span><span id='cursor'>_</span></div>");
     return this.element.scrollTop(this.element.prop('scrollHeight'));
   };
 
   TerminalVM.prototype.set_options = function(options) {
-    return this.set_prompt(this._get_option(options, 'prompt', 'mini-term>'));
+    return this.terminal.set_prompt(this._get_option(options, 'prompt', 'mini-term>'));
   };
 
   TerminalVM.prototype.set_greeting = function(greeting) {
