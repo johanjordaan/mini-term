@@ -8,13 +8,15 @@ app = express()
 
 app.use bodyParser()
 app.use(express.static('bower_components'))
-app.use(express.static('public'))
-app.use(express.static('static'))
+app.use(express.static('dist'))
+app.use(express.static('examples'))
 
 
-app.get '/', (req, res) ->
+app.get '/(.*)', (req, res) ->
 
-  fs.readFile 'static/test.html',(err,data) ->
+  console.log req.params
+  
+  fs.readFile 'index.html',(err,data) ->
     if err
       res.send 'Cannot read file'
     else

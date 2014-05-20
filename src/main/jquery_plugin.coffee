@@ -19,7 +19,7 @@
         e = e || window.event
         target = e.target || e.srcElement
 
-        if(target.className == 'mini-term')
+        if(target.className.indexOf("mini-term") > -1) 
           if e.keyCode == 8
             e.preventDefault()
             terminals[target.id]._handle_key 'BACKSPACE'
@@ -38,7 +38,7 @@
         e = e || window.event
         target = e.target || e.srcElement
 
-        if(target.className == 'mini-term')
+        if(target.className.indexOf("mini-term") > -1) 
           key_name = String.fromCharCode(e.which||e.charCode||e.keyCode)
           terminals[target.id]._handle_key key_name
             

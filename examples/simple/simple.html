@@ -3,15 +3,17 @@
   <head>
     <meta charset="utf-8" />
     
-    <title>js-terminal test page</title>
+    <title>mini-term test page</title>
     <meta name="author" content="Johan Jordaan"/>
-    <meta name="Description" content=""/>
     
-    <script src="jquery/dist/jquery.min.js"></script>
+    <script src="/jquery/dist/jquery.min.js"></script>
+    
+    <script src="/mini-term.js"></script>
+    <link href="/mini-term.css" rel="stylesheet"></link>
+    
 
-    
-    <script src="js/mini-term.js"></script>
-    <link href="css/mini-term.css" rel="stylesheet"></link>
+    <!--script src="simple.js"></script-->
+    <link href="simple.css" rel="stylesheet"></link>
 
     <script>
       var parser = function(term,cmd) {
@@ -31,7 +33,7 @@
 
   </head>
   <body>
-    <div id="terminal1" style="height:150px;"></div>
+    <div id="terminal1" class="simple" style="height:150px;"></div>
     <div id="terminal2" style="height:150px;"></div>
     <h1 id='txt'></h1>
   </body>

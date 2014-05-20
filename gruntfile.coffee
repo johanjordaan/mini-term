@@ -4,7 +4,7 @@ module.exports = (grunt) ->
     pkg : grunt.file.readJSON('package.json')
     uglify :
       options :
-        banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n'
+        banner: '/*! <%= pkg.name %> <%= pkg.version %> <%= grunt.template.today("yyyy-mm-dd") %> */\n'
     
       build : 
         src : 'dist/<%= pkg.name %>.js',
@@ -15,9 +15,7 @@ module.exports = (grunt) ->
         options: 
           bare: true
         files:
-          'public/js/<%= pkg.name %>.js' : 'src/main/**/*.coffee'
           'dist/<%= pkg.name %>.js' : 'src/main/**/*.coffee'
-
 
       singles:
         options:
@@ -36,6 +34,7 @@ module.exports = (grunt) ->
           reporter: 'dot'
         src: ['test/**/*.js']
 
+
     nodemon:
       dev:
         script: 'server/server.js'
@@ -44,20 +43,26 @@ module.exports = (grunt) ->
 
     less:
       dev:
-        files:
-          "public/css/mini-term.css": "src/public/less/mini-term.less"
-          "dist/mini-term.css": "src/public/less/mini-term.less"
-                  
+        files: [
+          { expand: true,cwd:'src/examples',src: ['**/*.less'], dest: 'examples/' , ext:'.css'}
+          { src: ['src/less/mini-term.less'], dest: 'dist/mini-term.css'}
+        ]  
   
+    copy:
+      main:
+        files: [
+          { expand: true,cwd:'src/test/site/html/',src: ['**'], dest: 'test/site/html/' }
+        ]  
 
-  grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-contrib-uglify')
   grunt.loadNpmTasks('grunt-contrib-coffee')
   grunt.loadNpmTasks('grunt-mocha-test')
   grunt.loadNpmTasks('grunt-shell')
   grunt.loadNpmTasks('grunt-nodemon')
   grunt.loadNpmTasks('grunt-contrib-less')
+  grunt.loadNpmTasks('grunt-contrib-copy')
   
-  grunt.registerTask('default', ['coffee:singles','less','coffee:concat','uglify','mochaTest'])
+  grunt.registerTask('default', ['coffee:singles','less','coffee:concat','uglify','copy','mochaTest'])
   grunt.registerTask('run', ['default','nodemon:dev'])
 
 
