@@ -47,44 +47,48 @@ The following minimal html illustrates the most basic usage of mini-term.
 
 ## Options
 
-Options are passed to the terminal via the binding method : $(function() { $('#terminal').terminal(parser); options });`
+Options are passed to the terminal via the binding method : `$(function() { $('#terminal').terminal(parser); options });`
 
 The options paramter is an object which has the following properties:
 
-### greeting
-This is the greeting which is displayed when the terminal is started initially and when the terminal is via the reset api command.
+### options.greeting : string
+This is the greeting which is displayed when the terminal is started initially and when the terminal is reset via the reset api command.
 
-### prompt
+### options.prompt : string
 This is the prompt for the terminal.
 
 
 ## API
 
-### echo(string)
+### term.echo(string)
 This command will print the string to the terminal. If the string contains new lines then each line will be printed on a seperate line in the terminal.
 
-### clear
+### term.clear()
 This command will clear the terminal.
 
+### term.reset()
+This command resets the terminal to its initial state. This includes clearing the history and displaying the greeting.
 
 
 ## Contributing
 
-Fork the development branch on git hub.
-
-Insalll grunt globally
+1. Insalll grunt globally
 
 ```
 npm install -g grunt
 ```
 
-Install the dependencies
+
+2. Fork the development branch on git hub
+
+
+3. Install the dependencies
 
 ``` 
 npm install 
 ```
 
-Then run the default grunt build task
+4. Then run the default grunt build task
 
 ```
 grunt
@@ -95,6 +99,10 @@ or
 grunt run
 ```
 to start the example server. (The server runs on port 3000)
+
+5. Make your changes (remember to add tests)
+
+6. Commit and create a pull request.
 
 
 
