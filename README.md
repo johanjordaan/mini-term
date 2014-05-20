@@ -6,7 +6,7 @@ The aim of the project is to make a very simple terminal available for use in we
 ## Install
 
 ``` 
-npm install mini-term
+bower install mini-term
 ``` 
 
 ## Usage
