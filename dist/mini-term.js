@@ -315,7 +315,7 @@ TerminalVM = (function() {
   };
 
   TerminalVM.prototype._enter = function() {
-    if (this.terminal.mode === 'input' && this.terminal.mask_input) {
+    if (this.terminal.mode === 'input') {
 
     } else {
       this.history.push(this.terminal.get_buffer());

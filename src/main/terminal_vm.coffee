@@ -35,7 +35,7 @@ class TerminalVM
     @_redraw()
 
   _enter : () ->
-    if @terminal.mode == 'input' and @terminal.mask_input     
+    if @terminal.mode == 'input'    
     else  
       @history.push(@terminal.get_buffer())
     
