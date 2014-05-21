@@ -84,16 +84,19 @@ This command resets the terminal to its initial state. This includes clearing th
 
 ## Contributing
 
-1. Insall grunt globally
+Insall grunt globally
 ```
 npm install -g grunt
 ```
-2. Fork the development branch on git hub
-3. Install the dependencies
+
+Fork the development branch on git hub
+
+Install the dependencies
 ``` 
 npm install 
 ```
-4. Then run the default grunt build task
+
+Then run the default grunt build task
 ```
 grunt
 ```
@@ -102,8 +105,10 @@ or
 grunt run
 ```
 to start the example server. (The server runs on port 3000)
-5. Make your changes (remember to add tests)
-6. Commit and create a pull request.
+
+Make your changes (remember to add tests)
+
+Commit and create a pull request.
 
 
 
