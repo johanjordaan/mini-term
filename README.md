@@ -3,6 +3,8 @@ mini-term
 
 The aim of the project is to make a very simple terminal available for use in web pages. It will not try to be a fully fledged terminal. It will not try to do cute command parsing for you. It will be minimal and allow you the maiximum amount of flexability.
 
+Have a look in examples for demo implimentations.
+
 ## Install
 
 ``` 
@@ -11,7 +13,12 @@ bower install mini-term
 
 ## Features
 * Simple api
+* Flexamble api 
 * History
+* Simple integration - jQuery plugin
+* Multiple terminals per page
+* Simple user input mechanism via api
+
 
 
 ## Usage
