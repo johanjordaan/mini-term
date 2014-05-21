@@ -1,8 +1,4 @@
-var History, HistoryItem, _;
-
-if (typeof require !== "undefined" && require !== null) {
-  _ = require('underscore');
-}
+var History, HistoryItem;
 
 HistoryItem = (function() {
   function HistoryItem(data) {
@@ -140,11 +136,7 @@ var terminals;
   };
 })(jQuery);
 
-var Terminal, _;
-
-if (typeof require !== "undefined" && require !== null) {
-  _ = require('underscore');
-}
+var Terminal;
 
 Terminal = (function() {
   function Terminal(interpreter, options) {
@@ -256,11 +248,7 @@ if (typeof module !== "undefined" && module !== null) {
   module.exports.Terminal = Terminal;
 }
 
-var TerminalVM, _;
-
-if (typeof require !== "undefined" && require !== null) {
-  _ = require('underscore');
-}
+var TerminalVM;
 
 TerminalVM = (function() {
   function TerminalVM(element, terminal, history, options) {

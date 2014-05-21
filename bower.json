@@ -15,6 +15,9 @@
   "dependencies": {
     "jquery": "*"
   },
+  "devDependencies": {
+    "requirejs": "*"
+  },
   "keywords": [
     "jquery",
     "javascript",

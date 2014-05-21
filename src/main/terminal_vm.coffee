@@ -1,5 +1,3 @@
-if require?
-  _ = require('underscore')
 
 class TerminalVM
   constructor : (@element,@terminal,@history,options) ->

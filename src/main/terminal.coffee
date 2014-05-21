@@ -1,7 +1,3 @@
-if require?
-  _ = require('underscore')
-
-
 
 class Terminal
 

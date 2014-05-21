@@ -1,5 +1,4 @@
-if require?
-  _ = require('underscore')
+
 
 class HistoryItem
   constructor : (@data) ->

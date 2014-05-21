@@ -19,6 +19,11 @@ bower install mini-term
 * Multiple terminals per page
 * Simple user input mechanism via api
 
+## Feature roadmap
+* Command registration so that command completion can be done
+* Color
+* <Whatever you feel would make this better, keeping the aim above in mind>
+
 
 
 ## Usage
