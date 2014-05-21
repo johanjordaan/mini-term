@@ -22,7 +22,7 @@ bower install mini-term
 ## Feature roadmap
 * Command registration so that command completion can be done
 * Color
-* <Whatever you feel would make this better, keeping the aim above in mind>
+* {Whatever you feel would make this better, keeping the aim above in mind}
 
 
 
@@ -85,6 +85,12 @@ This command will clear the terminal.
 
 ### term.reset()
 This command resets the terminal to its initial state. This includes clearing the history and displaying the greeting.
+
+### term.get_input(prompt,callback)
+This will get input from the user. The callback will be called with the uer provided value. The prompt will be shown while the user is inputting data.
+
+### term.get_masked_input(prompt,callback)
+This will get input from the user. The callback will be called with the uer provided value. The prompt will be shown while the user is inputting data. The user input will not be echoed to the screen or displayed in the terminal.
 
 
 ## Contributing
