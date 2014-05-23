@@ -9,7 +9,7 @@
     "src",
     "examples",
     "*.md",
-    "Gruntfile.coffee",
+    "gruntfile.coffee",
     "package.json"
   ],
   "dependencies": {
