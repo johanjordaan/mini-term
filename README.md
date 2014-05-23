@@ -1,4 +1,4 @@
-mini-term
+mini-term  ![Travis CI Status](https://api.travis-ci.org/johanjordaan/mini-term.svg?branch=master "Travis CI Status")
 =========
 
 The aim of the project is to make a very simple terminal available for use in web pages. It will not try to be a fully fledged terminal. It will not try to do cute command parsing for you. It will be minimal and allow you the maiximum amount of flexability.
